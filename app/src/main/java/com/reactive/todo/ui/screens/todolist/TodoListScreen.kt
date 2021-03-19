@@ -2,6 +2,7 @@ package com.reactive.todo.ui.screens.todolist
 
 import android.os.Handler
 import android.view.View
+import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.reactive.todo.R
@@ -45,10 +46,38 @@ class ListScreen : BaseFragment<TodoViewModel>(R.layout.screen_recycler) {
             STATUS.IN_PROGRESS -> getString(R.string.remaining_tasks)
             STATUS.NEW -> getString(R.string.new_tasks)
         }
+
+        initViews()
+
+        initAdapter()
+    }
+
+    // Functionalities of other views
+    private fun initViews() {
+
+        search.addTextChangedListener {
+            filter(it.toString())
+            if (it.toString().isEmpty()) search.clearFocus()
+        }
+
+        fab.setOnClickListener {
+            it.blockClickable()
+            addFragment(TaskDetailScreen())
+        }
+
+        fab.showGone(status == STATUS.ALL)
+
+        swipeRefreshLayout.setOnRefreshListener { observe() }
+
+    }
+
+    // Initialize list
+    private fun initAdapter() {
+
         adapter = TodoAdapter { data, isDeleted ->
             if (isDeleted) viewModel.deleteTodo(data)
             else removePreviousCallback({
-                addFragment(TaskDetailScreen.newInstance(data), id = navLayoutId())
+                addFragment(TaskDetailScreen.newInstance(data))
             })
         }
         recycler.adapter = adapter
@@ -63,15 +92,6 @@ class ListScreen : BaseFragment<TodoViewModel>(R.layout.screen_recycler) {
                 }
             }
         })
-
-        fab.setOnClickListener {
-            it.blockClickable()
-            addFragment(TaskDetailScreen())
-        }
-
-        fab.showGone(status == STATUS.ALL)
-
-        swipeRefreshLayout.setOnRefreshListener { observe() }
     }
 
     private fun filter(query: String) {
@@ -100,7 +120,7 @@ class ListScreen : BaseFragment<TodoViewModel>(R.layout.screen_recycler) {
                 STATUS.NEW -> adapter.setData(data.filter { it.status == STATUS.NEW })
             }
         }
-        handler.postDelayed(r, 500)
+        handler.postDelayed(r, 400)
     }
 
     override fun onDestroyView() {

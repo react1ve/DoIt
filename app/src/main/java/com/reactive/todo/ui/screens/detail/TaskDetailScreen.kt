@@ -5,6 +5,8 @@ import com.kunzisoft.switchdatetime.SwitchDateTimeDialogFragment
 import com.reactive.todo.R
 import com.reactive.todo.base.BaseFragment
 import com.reactive.todo.data.db.TodoRecord
+import com.reactive.todo.ui.adapters.StatusAdapter
+import com.reactive.todo.ui.adapters.StatusData
 import com.reactive.todo.ui.screens.todolist.STATUS
 import com.reactive.todo.ui.screens.todolist.TodoViewModel
 import com.reactive.todo.utils.extensions.blockClickable
@@ -31,13 +33,17 @@ class TaskDetailScreen : BaseFragment<TodoViewModel>(R.layout.screen_task_detail
 
     private var data: TodoRecord? = null
     private val sdf = SimpleDateFormat("dd MMMM yyyy, HH:mm", Locale.getDefault())
+    private lateinit var statusAdapter: StatusAdapter
     override fun initialize() {
 
         initData()
 
         initViews()
+
+        initStatuses()
     }
 
+    private var statuses = arrayListOf<StatusData>()
     private fun initData() {
         if (data != null) {
             name.setText(data!!.title)
@@ -52,6 +58,25 @@ class TaskDetailScreen : BaseFragment<TodoViewModel>(R.layout.screen_task_detail
 
     }
 
+    private fun initStatuses() {
+        statuses = arrayListOf(StatusData(STATUS.ALL), StatusData(STATUS.NEW), StatusData(STATUS.IN_PROGRESS), StatusData(STATUS.DONE))
+
+
+        if (data != null) {
+            statuses.forEach {
+                if (it.name == data!!.status) it.isChecked = true
+            }
+        } else statuses.first().isChecked = true
+
+        statusAdapter = StatusAdapter {
+            statuses.forEach { it.isChecked = false }
+            statuses[it].isChecked = true
+            statusAdapter.setData(statuses)
+        }.apply { setData(statuses) }
+
+        recycler.adapter = statusAdapter
+    }
+
     private fun initViews() {
         add.addTextChangedListener { validateFields() }
         content.addTextChangedListener { validateFields() }
@@ -59,8 +84,7 @@ class TaskDetailScreen : BaseFragment<TodoViewModel>(R.layout.screen_task_detail
 
         add.setOnClickListener {
             it.blockClickable()
-            if (data != null) updateTodo()
-            else saveTodo()
+            saveUpdateTodo(data == null)
         }
 
         date.setOnClickListener {
@@ -75,8 +99,8 @@ class TaskDetailScreen : BaseFragment<TodoViewModel>(R.layout.screen_task_detail
     private fun validateFields() {
         add.disable()
 
-        if (title.text.isEmpty()) {
-            title.requestFocus()
+        if (name.text.isEmpty()) {
+            name.requestFocus()
             return
         }
 
@@ -132,20 +156,12 @@ class TaskDetailScreen : BaseFragment<TodoViewModel>(R.layout.screen_task_detail
     }
 
     /**
-     * Saves the new information back to calling fragment
+     * Saves the new / updated information and back to calling fragment
      * */
-    private fun saveTodo() {
-        val todo = TodoRecord(id = data?.id, title = title.text.toString(), content = content.text.toString(), date = date.text.toString(), status = STATUS.NEW)
-        viewModel.saveTodo(todo)
-        finishFragment()
-    }
-
-    /**
-     * Saves the updated information and back to calling fragment
-     * */
-    private fun updateTodo() {
-        val todo = TodoRecord(id = data!!.id, title = title.text.toString(), content = content.text.toString(), date = date.text.toString(), status = data!!.status)
-        viewModel.updateTodo(todo)
+    private fun saveUpdateTodo(save: Boolean) {
+        val todo = TodoRecord(id = data?.id, title = name.text.toString(), content = content.text.toString(), date = date.text.toString(), status = statuses.first { it.isChecked }.name)
+        if (save) viewModel.saveTodo(todo)
+        else viewModel.updateTodo(todo)
         finishFragment()
     }
 

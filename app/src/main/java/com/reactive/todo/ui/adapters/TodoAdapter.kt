@@ -10,6 +10,7 @@ import com.reactive.todo.base.BaseAdapter
 import com.reactive.todo.base.ViewHolder
 import com.reactive.todo.data.db.TodoRecord
 import com.reactive.todo.ui.screens.todolist.STATUS
+import com.reactive.todo.utils.extensions.autoNotify
 import com.reactive.todo.utils.extensions.gone
 import com.reactive.todo.utils.extensions.visible
 import com.reactive.todo.utils.views.SwipeLayout
@@ -18,10 +19,18 @@ import kotlinx.android.synthetic.main.item_todo.view.*
 class TodoAdapter(private val listener: (data: TodoRecord, deleted: Boolean) -> Unit) :
         BaseAdapter<TodoRecord>(R.layout.item_todo), Filterable {
 
-    private var filtered = listOf<TodoRecord>()
+    private var backup = arrayListOf<TodoRecord>()
     private var itemsOffset = IntArray(0)
     override fun setData(data: List<TodoRecord>) {
-        super.setData(data)
+        backup = ArrayList(data)
+        autoNotify(items, data) { old, new ->
+            old.id == new.id
+                    && old.title == new.title
+                    && old.content == new.content
+                    && old.date == new.date
+                    && old.status == new.status
+        }
+        items = ArrayList(data)
         itemsOffset = IntArray(data.size)
     }
 
@@ -72,8 +81,10 @@ class TodoAdapter(private val listener: (data: TodoRecord, deleted: Boolean) -> 
                         swipeLayout: SwipeLayout,
                         moveToRight: Boolean
                 ) {
-                    listener.invoke(items[holder.adapterPosition], true)
-                    Handler().postDelayed({ swipeLayout.animateReset() }, 500)
+                    Handler().postDelayed({
+                        swipeLayout.animateReset()
+                        listener.invoke(items[holder.adapterPosition], true)
+                    }, 500)
                 }
 
                 override fun onLeftStickyEdge(
@@ -98,7 +109,6 @@ class TodoAdapter(private val listener: (data: TodoRecord, deleted: Boolean) -> 
         }
     }
 
-
     /**
      * Search Filter implementation
      * */
@@ -106,23 +116,22 @@ class TodoAdapter(private val listener: (data: TodoRecord, deleted: Boolean) -> 
         return object : Filter() {
             override fun performFiltering(p0: CharSequence?): FilterResults {
                 val charString = p0.toString()
-                filtered = if (charString.isEmpty()) {
-                    items
+                items = if (charString.isEmpty()) {
+                    backup
                 } else {
-                    ArrayList(items.filter {
+                    ArrayList(backup.filter {
                         it.title.toLowerCase().contains(charString.toLowerCase()) || it.content.contains(charString.toLowerCase())
                     })
                 }
                 val filterResults = FilterResults()
-                filterResults.values = filtered
+                filterResults.values = items
                 return filterResults
             }
 
             override fun publishResults(p0: CharSequence?, p1: FilterResults?) {
-                filtered = p1?.values as List<TodoRecord>
+                items = ArrayList(p1?.values as List<TodoRecord>)
                 notifyDataSetChanged()
             }
-
         }
     }
 }

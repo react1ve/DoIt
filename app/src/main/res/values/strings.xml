@@ -15,6 +15,7 @@
     <string name="status_in_progress">IN PROGRESS</string>
     <string name="status_new">NEW</string>
     <string name="status_done">DONE</string>
+    <string name="status_none">NONE</string>
     <string name="all_tasks">All Tasks</string>
     <string name="completed_tasks">Completed Tasks</string>
     <string name="remaining_tasks">Remaining Tasks</string>

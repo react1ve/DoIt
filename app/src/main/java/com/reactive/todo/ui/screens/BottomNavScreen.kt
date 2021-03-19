@@ -1,6 +1,5 @@
 package com.reactive.todo.ui.screens
 
-import android.annotation.SuppressLint
 import android.view.MenuItem
 import androidx.fragment.app.Fragment
 import com.reactive.todo.R
@@ -9,7 +8,6 @@ import com.reactive.todo.ui.screens.todolist.ListScreen
 import com.reactive.todo.ui.screens.todolist.STATUS
 import kotlinx.android.synthetic.main.screen_bottom_nav.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.text.SimpleDateFormat
 import java.util.*
 
 class BottomNavScreen : BaseFragment<BottomNavViewModel>(R.layout.screen_bottom_nav) {
@@ -49,14 +47,6 @@ class BottomNavScreen : BaseFragment<BottomNavViewModel>(R.layout.screen_bottom_
         }
 
         selectFragment(0)
-
-        setDate()
-    }
-
-    @SuppressLint("SimpleDateFormat")
-    private fun setDate() {
-        date.text = SimpleDateFormat("dd MMMM, yyyy").format(Date())
-        week.text = SimpleDateFormat("EEEE").format(Date())
     }
 
     private fun selectFragment(pos: Int) {

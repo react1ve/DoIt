@@ -11,11 +11,18 @@
 
         <include layout="@layout/content_title" />
 
+        <EditText
+            android:id="@+id/search"
+            style="@style/edtStyle"
+            android:layout_below="@+id/title"
+            android:layout_marginBottom="10dp"
+            android:hint="@string/enter_task_name" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/title"
+            android:layout_below="@+id/search"
             android:splitMotionEvents="false"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/item_todo" />
@@ -24,7 +31,7 @@
             android:id="@+id/shimmerLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/title"
+            android:layout_below="@+id/search"
             android:splitMotionEvents="false">
 
             <!-- Adding 7 rows of placeholders -->

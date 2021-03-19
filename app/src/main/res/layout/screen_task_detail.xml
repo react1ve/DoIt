@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/screenStyle">
 
@@ -13,9 +14,10 @@
     <EditText
         android:id="@+id/content"
         style="@style/edtStyle"
-        android:layout_height="100dp"
+        android:layout_height="wrap_content"
         android:gravity="top"
-        android:hint="@string/enter_task_name" />
+        android:hint="@string/enter_task_name"
+        android:minHeight="100dp" />
 
     <EditText
         android:id="@+id/date"
@@ -25,8 +27,18 @@
         android:hint="@string/enter_date"
         tools:ignore="TextFields" />
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin16"
+        android:layout_marginTop="@dimen/margin16"
+        android:orientation="horizontal"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/item_status" />
+
     <Button
-        style="@style/buttonStyle"
         android:id="@+id/add"
+        style="@style/buttonStyle"
         android:text="@string/add_task" />
 </LinearLayout>

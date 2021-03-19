@@ -1,11 +1,15 @@
 package com.reactive.todo.ui.activities
 
+import android.annotation.SuppressLint
 import android.view.KeyEvent
 import androidx.annotation.IdRes
 import com.reactive.todo.R
 import com.reactive.todo.base.BaseActivity
 import com.reactive.todo.base.initialFragment
 import com.reactive.todo.ui.screens.BottomNavScreen
+import kotlinx.android.synthetic.main.activity_main.*
+import java.text.SimpleDateFormat
+import java.util.*
 
 class MainActivity : BaseActivity(R.layout.activity_main) {
 
@@ -18,7 +22,10 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
     }
 
     override fun onActivityCreated() {
+
         init()
+
+        setDate()
     }
 
     private fun init() {
@@ -27,6 +34,12 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
         navLayoutId = R.id.navContainer
 
         startFragment()
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    private fun setDate() {
+        date.text = SimpleDateFormat("dd MMMM, yyyy").format(Date())
+        week.text = SimpleDateFormat("EEEE").format(Date())
     }
 
     private fun startFragment() {

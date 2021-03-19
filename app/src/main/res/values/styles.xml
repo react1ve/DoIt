@@ -6,6 +6,9 @@
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryDark">@color/primary</item>
         <item name="colorAccent">@color/primary</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowActionModeOverlay">false</item>
     </style>
 
     <style name="screenStyle">
@@ -25,7 +28,7 @@
 
     <style name="cardStyle" parent="elevationStyle">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">130dp</item>
+        <item name="android:layout_height">110dp</item>
         <item name="android:layout_marginStart">@dimen/margin16</item>
         <item name="android:layout_marginTop">@dimen/margin16</item>
         <item name="android:layout_marginEnd">@dimen/margin16</item>
