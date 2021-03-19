@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.reactive.todo.utils.views.SwipeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/swipeLayout"
+    style="@style/elevationStyle"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="16dp"
+    android:layout_marginTop="16dp"
+    android:layout_marginEnd="16dp">
+
+    <RelativeLayout
+        android:id="@+id/dataBlock"
+        style="@style/cardStyle"
+        android:layout_margin="0dp"
+        android:elevation="0dp"
+        android:translationZ="0dp">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="14dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="14dp"
+            android:layout_alignParentStart="true"
+            android:layout_toStartOf="@id/statusLayout"
+            android:maxLines="1"
+            android:textColor="@color/black"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            tools:text="@tools:sample/lorem/random" />
+
+        <TextView
+            android:id="@+id/desc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/title"
+            android:layout_alignStart="@id/title"
+            android:layout_alignEnd="@id/title"
+            android:layout_marginTop="5dp"
+            android:maxLines="3"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            tools:text="@tools:sample/lorem/random" />
+
+        <LinearLayout
+            android:id="@+id/statusLayout"
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:background="@drawable/done_status_back"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <TextView
+                android:id="@+id/status"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:rotation="90"
+                android:text="DONE"
+                android:textAllCaps="true"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <FrameLayout
+        android:id="@+id/rightView"
+        android:layout_width="70dp"
+        android:layout_height="match_parent"
+        app:bring_to_clamp="no"
+        app:clamp="self"
+        app:gravity="right"
+        app:sticky="none">
+
+        <ImageView
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="center_vertical|end"
+            android:layout_marginEnd="8dp"
+            android:padding="12dp"
+            android:src="@drawable/ic_trash"
+            tools:ignore="ContentDescription" />
+    </FrameLayout>
+
+</com.reactive.todo.utils.views.SwipeLayout>

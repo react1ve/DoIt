@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/screenStyle">
+
+    <include layout="@layout/content_title" />
+
+    <EditText
+        android:id="@+id/name"
+        style="@style/edtStyle"
+        android:hint="@string/enter_task_name" />
+
+    <EditText
+        android:id="@+id/content"
+        style="@style/edtStyle"
+        android:layout_height="100dp"
+        android:gravity="top"
+        android:hint="@string/enter_task_name" />
+
+    <EditText
+        android:id="@+id/date"
+        style="@style/edtStyle"
+        android:clickable="false"
+        android:focusable="false"
+        android:hint="@string/enter_date"
+        tools:ignore="TextFields" />
+
+    <Button
+        style="@style/buttonStyle"
+        android:id="@+id/add"
+        android:text="@string/add_task" />
+</LinearLayout>

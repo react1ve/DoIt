@@ -1,0 +1,85 @@
+apply plugin: 'com.android.application'
+
+apply plugin: 'kotlin-android'
+
+apply plugin: 'kotlin-kapt'
+
+apply plugin: 'kotlin-android-extensions'
+
+android {
+    compileSdkVersion 28
+    defaultConfig {
+        applicationId "com.reactive.todo"
+        minSdkVersion 21
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0.0"
+        archivesBaseName = "todo-$versionName"
+    }
+    buildTypes {
+        debug {
+            minifyEnabled false
+            shrinkResources false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        release {
+            minifyEnabled false
+            shrinkResources false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    androidExtensions {
+        experimental = true
+    }
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    lintOptions {
+        checkReleaseBuilds false
+        //If you want to continue even if errors found use following line
+        abortOnError false
+    }
+    tasks.whenTaskAdded { task ->
+        if (task.name == "lint") {
+            task.enabled = false
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    //Kotlin
+    implementation kotlinLibraries.kotlin
+
+    //Support
+    implementation supportLibraries.appCompat
+    implementation supportLibraries.core
+    implementation supportLibraries.material
+    implementation supportLibraries.fragment
+    implementation supportLibraries.swipeRefresh
+
+    //ViewModel & LiveData
+    implementation archLibraries.lifecycle
+    kapt archLibraries.lifecycleCompiler
+
+    //Room + Coroutines
+    implementation archLibraries.room
+    kapt archLibraries.roomCompiler
+
+    //Koin
+    implementation koinLibraries.koinCore
+    implementation koinLibraries.koinViewModel
+    implementation koinLibraries.koinScope
+
+    // Third part
+    implementation thirdPartLibraries.timber
+    implementation thirdPartLibraries.gson
+    implementation thirdPartLibraries.picker
+    implementation thirdPartLibraries.shimmer
+
+}

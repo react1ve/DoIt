@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">DOit</string>
+    <string name="back_again">Click again to exit</string>
+    <string name="all">ALL</string>
+    <string name="done">DONE</string>
+    <string name="in_progress">IN PROGRESS</string>
+    <string name="update_task">Update Task</string>
+    <string name="add_task_details">Add Task Details</string>
+    <string name="add_task">Add Task</string>
+    <string name="task_details">Task Details</string>
+    <string name="enter_date">Enter date &amp; time</string>
+    <string name="enter_task_name">Enter task name</string>
+    <string name="ok">OK</string>
+    <string name="cancel">CANCEL</string>
+    <string name="status_in_progress">IN PROGRESS</string>
+    <string name="status_new">NEW</string>
+    <string name="status_done">DONE</string>
+    <string name="all_tasks">All Tasks</string>
+    <string name="completed_tasks">Completed Tasks</string>
+    <string name="remaining_tasks">Remaining Tasks</string>
+    <string name="new_tasks">New Tasks</string>
+</resources>
